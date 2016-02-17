@@ -1,4 +1,7 @@
 # inquiry-traverser
+
+[![npm version](https://badge.fury.io/js/inquiry-traverser.svg)](https://badge.fury.io/js/inquiry-traverser)
+
 A Promise based wrapper for prompting branched questions with [Inquirer.js](https://github.com/sboudrias/Inquirer.js).
 
 ## Documentation
