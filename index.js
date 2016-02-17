@@ -3,7 +3,12 @@ module.exports = function (inquirer) {
     return new Promise(function executor (resolve, reject) {
       function promptSingle (id) {
         if (!id || !(id in questions)) {
-          throw Error('Specified questions object lacks key "' + ('' + id) + '"!');
+          return reject({
+            message: 'Specified questions object lacks key "' + ('' + id) + '"!',
+            id: id,
+            step: null,
+            inquirerAnswer: null
+          });
         }
 
         var step = questions[id];
@@ -11,13 +16,23 @@ module.exports = function (inquirer) {
 
         inquirer.prompt(question, function (answer) {
           if (!(id in answer)) {
-            throw Error('Inquirer\'s answer object is lacking key "' + ('' + id) + '"!');
+            return reject({
+              message: 'Inquirer\'s answer object is lacking key "' + ('' + id) + '"!',
+              id: id,
+              step: step,
+              inquirerAnswer: answer
+            });
           }
 
           var value = '' + answer[id];
 
           if (!(value in step.resolve)) {
-            throw Error('Questions\' Step "' + id + '" is lacking a resolution for "' + value + '"');
+            return reject({
+              message: 'Questions\' Step "' + id + '" is lacking a resolution for "' + value + '"',
+              id: id,
+              step: step,
+              inquirerAnswer: answer
+            });
           }
 
           var resolution = step.resolve[value];
@@ -34,7 +49,8 @@ module.exports = function (inquirer) {
           reject({
             message: 'Questions\' Step "' + id + '" is lacking a resolution (either "redirect" or "value")!',
             id: id,
-            step: step
+            step: step,
+            inquirerAnswer: answer
           });
         });
       }
