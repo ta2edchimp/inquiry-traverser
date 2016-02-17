@@ -1,69 +1,84 @@
-module.exports = function (inquirer) {
-  return function traverse (questions) {
-    return new Promise(function executor (resolve, reject) {
-      function promptSingle (id) {
-        if (!id || !(id in questions)) {
-          return reject({
-            message: 'Specified questions object lacks key "' + ('' + id) + '"!',
+module.exports = function inquiryTraverser( inquirer ) {
+
+  return function traverse( questions ) {
+
+    return new Promise( function executor( resolve, reject ) {
+
+      function promptSingle( id ) {
+
+        var
+          step,
+          question;
+
+        if ( !id || !( id in questions ) ) {
+          return reject( {
+            message: 'Specified questions object lacks key "' + id + '"!',
             id: id,
             step: null,
             inquirerAnswer: null
-          });
+          } );
         }
 
-        var step = questions[id];
-        var question = Object.assign({}, step.question, { name: id });
+        step = questions[ id ];
+        question = Object.assign( {}, step.question, { name: id } );
 
-        inquirer.prompt(question, function (answer) {
-          if (!(id in answer)) {
-            return reject({
-              message: 'Inquirer\'s answer object is lacking key "' + ('' + id) + '"!',
+        inquirer.prompt( question, function handleAnswer( answer ) {
+
+          var
+            value,
+            resolution;
+
+          if ( !( id in answer ) ) {
+            return reject( {
+              message: 'Inquirer\'s answer object is lacking key "' + id + '"!',
               id: id,
               step: step,
               inquirerAnswer: answer
-            });
+            } );
           }
 
-          var value = '' + answer[id];
+          value = '' + answer[ id ];
 
-          if (!(value in step.resolve)) {
-            return reject({
+          if ( !( value in step.resolve ) ) {
+            return reject( {
               message: 'Questions\' Step "' + id + '" is lacking a resolution for "' + value + '"',
               id: id,
               step: step,
               inquirerAnswer: answer
-            });
+            } );
           }
 
-          var resolution = step.resolve[value];
+          resolution = step.resolve[ value ];
 
-          if ('redirect' in resolution) {
-            setTimeout(promptSingle, 0, resolution.redirect);
+          if ( 'redirect' in resolution ) {
+            setTimeout( promptSingle, 0, resolution.redirect );
             return;
           }
 
-          if ('value' in resolution) {
-            return resolve(resolution.value);
+          if ( 'value' in resolution ) {
+            return resolve( resolution.value );
           }
 
-          reject({
+          reject( {
             message: 'Questions\' Step "' + id + '" is lacking a resolution (either "redirect" or "value")!',
             id: id,
             step: step,
             inquirerAnswer: answer
-          });
-        });
+          } );
+        } );
       }
 
-      if (!questions) {
-        throw Error('No questions to traverse specified!');
+      if ( !questions ) {
+        throw Error( 'No questions to traverse specified!' );
       }
 
-      if (!questions.entry || !(questions.entry in questions)) {
-        throw Error('Specified questions object lacks entry point!');
+      if ( !questions.entry || !( questions.entry in questions ) ) {
+        throw Error( 'Specified questions object lacks entry point!' );
       }
 
-      promptSingle(questions.entry);
-    });
+      promptSingle( questions.entry );
+    } );
+
   }
+
 };
