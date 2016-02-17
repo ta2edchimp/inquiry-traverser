@@ -1,6 +1,6 @@
 var
   inquirer = require( 'inquirer' ),
-  traverser = require( 'inquiry-traverser' ),
+  traverser = require( '../index' ),
 
   traverse = traverser( inquirer ),
 
