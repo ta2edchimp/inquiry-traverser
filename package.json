@@ -1,6 +1,6 @@
 {
   "name": "inquiry-traverser",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A Promise based wrapper for prompting branched questions with Inquirer.js",
   "main": "index.js",
   "scripts": {
