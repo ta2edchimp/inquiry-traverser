@@ -79,6 +79,6 @@ module.exports = function inquiryTraverser( inquirer ) {
       promptSingle( questions.entry );
     } );
 
-  }
+  };
 
 };
