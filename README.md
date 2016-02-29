@@ -1,6 +1,6 @@
 # inquiry-traverser
 
-[![npm version](https://badge.fury.io/js/inquiry-traverser.svg)](https://badge.fury.io/js/inquiry-traverser) [![dependencies](https://david-dm.org/ta2edchimp/inquiry-traverser.svg?theme=shields.io)](https://david-dm.org/ta2edchimp/inquiry-traverser)
+[![npm version](https://badge.fury.io/js/inquiry-traverser.svg)](https://badge.fury.io/js/inquiry-traverser) [![dependencies](https://david-dm.org/ta2edchimp/inquiry-traverser.svg)](https://david-dm.org/ta2edchimp/inquiry-traverser) [![dev dependencies](https://david-dm.org/ta2edchimp/inquiry-traverser/dev-status.svg)](https://david-dm.org/ta2edchimp/inquiry-traverser#info=devDependencies) [![peer dependencies](https://david-dm.org/ta2edchimp/inquiry-traverser/peer-status.svg)](https://david-dm.org/ta2edchimp/inquiry-traverser#info=peerDependencies)
 
 A Promise based wrapper for prompting branched questions with [Inquirer.js](https://github.com/sboudrias/Inquirer.js).
 
