@@ -3,6 +3,12 @@
   "version": "0.2.0",
   "description": "A Promise based wrapper for prompting branched questions with Inquirer.js",
   "main": "index.js",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "index.js",
+    "examples"
+  ],
   "scripts": {
     "lint": "eslint index.js examples/",
     "test": "npm run lint && echo \"Error: no test specified\" && exit 1"
