@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "eslint": "^2.2.0",
-    "eslint-config-idiomatic": "^2.0.0",
+    "eslint-config-ta2edchimp": "^1.1.0",
     "inquirer": "^0.12.0"
   }
 }
