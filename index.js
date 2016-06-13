@@ -22,50 +22,59 @@ module.exports = function inquiryTraverser( inquirer ) {
         step = questions[ id ];
         question = Object.assign( {}, step.question, { name: id } );
 
-        inquirer.prompt( question, function handleAnswer( answer ) {
+        inquirer.prompt( question )
+          .then( function handleAnsweredQuestion( answer ) {
 
-          var
-            value,
-            resolution;
+            var
+              value,
+              resolution;
 
-          if ( !( id in answer ) ) {
-            return reject( {
-              message: 'Inquirer\'s answer object is lacking key "' + id + '"!',
+            if ( !( id in answer ) ) {
+              return reject( {
+                message: 'Inquirer\'s answer object is lacking key "' + id + '"!',
+                id: id,
+                step: step,
+                inquirerAnswer: answer
+              } );
+            }
+
+            value = '' + answer[ id ];
+
+            if ( !( value in step.resolve ) ) {
+              return reject( {
+                message: 'Questions\' Step "' + id + '" is lacking a resolution for "' + value + '"',
+                id: id,
+                step: step,
+                inquirerAnswer: answer
+              } );
+            }
+
+            resolution = step.resolve[ value ];
+
+            if ( 'redirect' in resolution ) {
+              setTimeout( promptSingle, 0, resolution.redirect );
+              return;
+            }
+
+            if ( 'value' in resolution ) {
+              return resolve( resolution.value );
+            }
+
+            reject( {
+              message: 'Questions\' Step "' + id + '" is lacking a resolution (either "redirect" or "value")!',
               id: id,
               step: step,
               inquirerAnswer: answer
             } );
-          }
-
-          value = '' + answer[ id ];
-
-          if ( !( value in step.resolve ) ) {
-            return reject( {
-              message: 'Questions\' Step "' + id + '" is lacking a resolution for "' + value + '"',
+          } )
+          .catch( function handleInsufficientlyAnsweredQuestion( reason ) {
+            reject( {
+              message: 'Questions\' Step "' + id + '" is lacking a resolution (either "redirect" or "value")!',
               id: id,
               step: step,
-              inquirerAnswer: answer
+              rejectReason: reason
             } );
-          }
-
-          resolution = step.resolve[ value ];
-
-          if ( 'redirect' in resolution ) {
-            setTimeout( promptSingle, 0, resolution.redirect );
-            return;
-          }
-
-          if ( 'value' in resolution ) {
-            return resolve( resolution.value );
-          }
-
-          reject( {
-            message: 'Questions\' Step "' + id + '" is lacking a resolution (either "redirect" or "value")!',
-            id: id,
-            step: step,
-            inquirerAnswer: answer
           } );
-        } );
       }
 
       if ( !questions ) {
