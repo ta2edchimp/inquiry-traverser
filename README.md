@@ -40,7 +40,7 @@ The `advanced-usage` example uses prompts of type `list`, `rawlist` and `expand`
 
 ### Differences to default Inquirer.js Behaviour
 
-Contrary to the default behaviour of Inquirer.js, which calls the prompts' callback with an [Answer object](https://github.com/sboudrias/Inquirer.js#answers) that contains the user's response to _all prompted questions_, the function called upon resolving the Promise returned by `inquiry-traverser` receives a particular value (see the [basic usage](https://github.com/ta2edchimp/inquiry-traverser/blob/master/examples/basic-usage.js) example).
+Contrary to the default behaviour of Inquirer.js, which resolves the returned promise with user's responses to _all prompted questions_, the Promise returned by `inquiry-traverser` receives only a particular value (see the [basic usage](https://github.com/ta2edchimp/inquiry-traverser/blob/master/examples/basic-usage.js) example).
 
 ## Todos
 
